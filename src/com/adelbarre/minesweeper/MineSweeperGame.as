@@ -1,13 +1,16 @@
 package com.adelbarre.minesweeper
 {
+	import com.adelbarre.minesweeper.event.GameEvent;
+	
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.EventDispatcher;
 	import flash.events.MouseEvent;
 	import flash.text.TextField;
 	
 	import mx.controls.Alert;
 	
-	public class MineSweeperGame
+	public class MineSweeperGame extends EventDispatcher
 	{
 		private var _boardContainer:Sprite;
 		private var _uiContainer:Sprite;
@@ -20,6 +23,8 @@ package com.adelbarre.minesweeper
 		private var _gridWidth:int;
 		private var _gridHeight:int;
 		
+		private var _remainingMines:int;
+		
 		public function MineSweeperGame(board:Sprite)
 		{
 			_boardContainer=board;
@@ -29,7 +34,7 @@ package com.adelbarre.minesweeper
 		{
 			_gridWidth=gridWidth;
 			_gridHeight=gridHeight;
-			
+			_remainingMines=mines;
 			createGrid(gridWidth,gridHeight,mines);
 		}
 		
@@ -113,19 +118,27 @@ package com.adelbarre.minesweeper
 			
 			if(clickedSquare)
 			{
+				
+				
 				if(!clickedSquare.flagged && !clickedSquare.isPotential)
 				{
 					clickedSquare.addFlag();
+					_remainingMines--;
 				}
 				else if(clickedSquare.flagged)
 				{
 					clickedSquare.removeFlag();
 					clickedSquare.addPotential();
+					_remainingMines++;
 				}
 				else
 				{
 					clickedSquare.removePotential();
 				}
+				
+				var gameEvt:GameEvent=new GameEvent(GameEvent.MINE_FLAGGED_UPDATE);
+				gameEvt.remainingMines=_remainingMines;
+				dispatchEvent(gameEvt);
 			}
 		}
 		

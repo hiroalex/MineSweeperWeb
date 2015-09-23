@@ -10,6 +10,7 @@
 	<fx:Script>
 		<![CDATA[ 
 			import com.adelbarre.minesweeper.MineSweeperGame;
+			import com.adelbarre.minesweeper.event.GameEvent;
 			
 			private var _mineSweeperGame:MineSweeperGame;
 			
@@ -18,9 +19,18 @@
 			private function onCreationComplete():void
 			{
 				_mineSweeperGame = new MineSweeperGame(boardContainer);
+				_mineSweeperGame.addEventListener(GameEvent.MINE_FLAGGED_UPDATE,onMineFlaggedUpdate);
 				_mineSweeperGame.start(10,10,MINES);
 				remainingLabel.text=MINES.toString();
 				timerLabel.text="0";
+			}
+			
+			private function onMineFlaggedUpdate(evt:GameEvent):void
+			{
+				if(remainingLabel)
+				{
+					remainingLabel.text=evt.remainingMines.toString();
+				}
 			}
 			
 			private function onResize():void 
