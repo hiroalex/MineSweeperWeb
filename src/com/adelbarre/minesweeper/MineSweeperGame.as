@@ -106,7 +106,7 @@ package com.adelbarre.minesweeper
 		private function onBoardRightClick(evt:MouseEvent):void
 		{
 			var clickedSquare:Square;
-			trace("CLICK DROIT"); 
+			
 			if(evt.target is Square)
 			{	
 				clickedSquare=evt.target as Square;
@@ -118,8 +118,6 @@ package com.adelbarre.minesweeper
 			
 			if(clickedSquare)
 			{
-				
-				
 				if(!clickedSquare.flagged && !clickedSquare.isPotential)
 				{
 					clickedSquare.addFlag();

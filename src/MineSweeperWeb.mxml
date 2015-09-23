@@ -20,7 +20,7 @@
 			{
 				_mineSweeperGame = new MineSweeperGame(boardContainer);
 				_mineSweeperGame.addEventListener(GameEvent.MINE_FLAGGED_UPDATE,onMineFlaggedUpdate);
-				_mineSweeperGame.start(10,10,MINES);
+				_mineSweeperGame.start(20,10,MINES);
 				remainingLabel.text=MINES.toString();
 				timerLabel.text="0";
 			}
@@ -40,7 +40,7 @@
 			
 			private function onNewGameClick(evt:MouseEvent):void
 			{
-				_mineSweeperGame.start(10,10,MINES);
+				_mineSweeperGame.start(20,10,MINES);
 			}
 			
 			

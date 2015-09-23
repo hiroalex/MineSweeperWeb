@@ -85,14 +85,14 @@ package com.adelbarre.minesweeper
 			this.graphics.endFill();
 		}
 		
-		public function reveal(safe:Boolean):void
+		public function reveal(zeroMineAround:Boolean):void
 		{
 			_revealed=true;
 			this.graphics.beginFill(0x00ff00);
 			this.graphics.drawRoundRect(0,0,_w,_h,_cornerRadius,_cornerRadius);
 			this.graphics.endFill();
 			
-			if(!safe)
+			if(!zeroMineAround)
 			{
 				var textfield:TextField=new TextField();
 				textfield.text=_nearbyBombs.toString();
