@@ -17,8 +17,6 @@
 			 
 			private function onCreationComplete():void
 			{
-				//this.stage.addEventListener(MouseEvent.RIGHT_CLICK,function(e:Event):void{});
-				
 				_mineSweeperGame = new MineSweeperGame(boardContainer);
 				_mineSweeperGame.start(10,10,MINES);
 				remainingLabel.text=MINES.toString();
