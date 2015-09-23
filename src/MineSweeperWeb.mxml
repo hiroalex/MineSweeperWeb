@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" creationComplete="onCreationComplete()"
+			   xmlns:mx="library://ns.adobe.com/flex/mx" resize="onResize()">
+	<fx:Declarations>
+		<!-- Placer ici les éléments non visuels (services et objets de valeur, par exemple). -->
+	</fx:Declarations>
+	
+	
+	<fx:Script>
+		<![CDATA[ 
+			import com.adelbarre.minesweeper.MineSweeperGame;
+			
+			private var _mineSweeperGame:MineSweeperGame;
+			
+			private static const MINES:int=10;
+			 
+			private function onCreationComplete():void
+			{
+				//this.stage.addEventListener(MouseEvent.RIGHT_CLICK,function(e:Event):void{});
+				
+				_mineSweeperGame = new MineSweeperGame(boardContainer);
+				_mineSweeperGame.start(10,10,MINES);
+				remainingLabel.text=MINES.toString();
+				timerLabel.text="0";
+			}
+			
+			private function onResize():void 
+			{
+				if(_mineSweeperGame) _mineSweeperGame.recenter(); 
+			}
+			
+			private function onNewGameClick(evt:MouseEvent):void
+			{
+				_mineSweeperGame.start(10,10,MINES);
+			}
+			
+			
+		]]>
+	</fx:Script>
+	
+	<s:VGroup width="100%" height="100%">
+		<s:HGroup horizontalAlign="center" verticalAlign="middle" width="100%" height="50">
+			<s:Label id="remainingLabel" width="100%" textAlign="center" fontSize="30" />
+			<s:Button id="newGame" label="New Game" click="onNewGameClick(event)" width="100%" height="25"/>
+			<s:Label id="timerLabel" width="100%" textAlign="center" fontSize="30" />
+		</s:HGroup>
+		<s:SpriteVisualElement width="100%" height="100%" id="boardContainer"/>
+	</s:VGroup>
+	
+</s:Application>
