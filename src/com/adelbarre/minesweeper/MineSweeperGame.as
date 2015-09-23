@@ -106,7 +106,7 @@ package com.adelbarre.minesweeper
 			{	
 				clickedSquare=evt.target as Square;
 			}
-			else if(evt.target is TextField)
+			else if(evt.target is TextField) 
 			{	
 				clickedSquare=evt.target.parent as Square;
 			}
