@@ -6,7 +6,6 @@ package com.adelbarre.minesweeper
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.MouseEvent;
-	import flash.text.TextField;
 	
 	import mx.controls.Alert;
 	
@@ -51,8 +50,8 @@ package com.adelbarre.minesweeper
 			for(var i:int=0;i<squaresLength;i++)
 			{
 				var sq:Square=new Square(i,SQUARE_WIDTH,SQUARE_HEIGHT); 
-				sq.x=Math.floor(i%gridWidth)*(sq.width+5);
-				sq.y=Math.floor(i/gridWidth)*(sq.height+5);
+				sq.x=Math.floor(i%gridWidth)*(sq.width+1);
+				sq.y=Math.floor(i/gridWidth)*(sq.height+1);
 				_squaresContainer.addChild(sq);
 				_squares.push(sq);
 			}
@@ -107,10 +106,6 @@ package com.adelbarre.minesweeper
 			{	
 				clickedSquare=evt.target as Square;
 			}
-			else if(evt.target is TextField) 
-			{	
-				clickedSquare=evt.target.parent as Square;
-			}
 			
 			if(clickedSquare)
 			{
@@ -127,10 +122,7 @@ package com.adelbarre.minesweeper
 			{	
 				clickedSquare=evt.target as Square;
 			}
-			else if(evt.target is TextField) 
-			{	
-				clickedSquare=evt.target.parent as Square;
-			}
+			
 			
 			if(clickedSquare)
 			{
@@ -209,7 +201,7 @@ package com.adelbarre.minesweeper
 		
 		private function onBoardClick(evt:MouseEvent):void
 		{
-			if(evt.target is Square)
+			if(evt.target is Square) 
 			{
 				if((evt.target as Square).hasBomb) //GAME OVER
 				{

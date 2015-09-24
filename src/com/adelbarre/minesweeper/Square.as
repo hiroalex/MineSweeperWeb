@@ -2,7 +2,6 @@ package com.adelbarre.minesweeper
 {
 	import flash.display.Bitmap;
 	import flash.display.Sprite;
-	import flash.text.TextField;
 	
 	public class Square extends Sprite
 	{
@@ -13,30 +12,24 @@ package com.adelbarre.minesweeper
 		
 		private var _w:int;
 		private var _h:int;
-		private var _cornerRadius:int;
 		private var _nearbyBombs:int;
 		private var _flagged:Boolean=false;
 		private var _isPotential:Boolean=false;
 		
-		public function Square(ind:int,w:Number,h:Number,cornerRadius:int=5)
+		public function Square(ind:int,w:Number,h:Number)
 		{
 			super();
 			_index=ind; 
 			_w=w;
 			_h=h;
-			_cornerRadius=cornerRadius;
 			
 			_nearbyBombs=0;
 			this.doubleClickEnabled=true;
 			
 			var initBmp:Bitmap = new Assets.initSquare() as Bitmap;
-			initBmp.width=w;
-			initBmp.height=h;
+			initBmp.width=_w;
+			initBmp.height=_h;
 			this.addChild(initBmp);
-			
-			/*this.graphics.beginFill(0xCCCCCC);
-			this.graphics.drawRoundRect(0,0,w,h,cornerRadius,cornerRadius);
-			this.graphics.endFill();*/	
 		}
 		
 		
@@ -52,19 +45,22 @@ package com.adelbarre.minesweeper
 		
 		public function addFlag():void
 		{
-			_flagged=true;
-			this.graphics.beginFill(0xFF3333);
-			this.graphics.drawCircle(this.width*0.5,this.height*0.5,5);
-			this.graphics.endFill();
+			_flagged=true;			
+			this.removeChildren();			
+			var flagBmp:Bitmap = new Assets.flagSquare() as Bitmap;
+			flagBmp.width=_w;
+			flagBmp.height=_h;
+			this.addChild(flagBmp);
 		}
 		
 		public function removeFlag():void
 		{
 			_flagged=false;
-			this.graphics.clear();
-			this.graphics.beginFill(0xCCCCCC);
-			this.graphics.drawRoundRect(0,0,_w,_h,_cornerRadius,_cornerRadius);
-			this.graphics.endFill();	
+			this.removeChildren();			
+			var initBmp:Bitmap = new Assets.initSquare() as Bitmap;
+			initBmp.width=_w;
+			initBmp.height=_h;
+			this.addChild(initBmp);	
 		}
 		
 		public function get isPotential():Boolean
@@ -75,36 +71,67 @@ package com.adelbarre.minesweeper
 		public function addPotential():void
 		{
 			_isPotential=true;
-			var textfield:TextField=new TextField();
-			textfield.text="?";
-			textfield.selectable=false;
-			this.addChild(textfield);
+			this.removeChildren();			
+			var potentialBmp:Bitmap = new Assets.potentialSquare() as Bitmap;
+			potentialBmp.width=_w;
+			potentialBmp.height=_h;
+			this.addChild(potentialBmp);
 		}
 		
 		public function removePotential():void
 		{
 			_isPotential=false;
 			this.removeChildren();
-			this.graphics.clear();
-			this.graphics.beginFill(0xCCCCCC);
-			this.graphics.drawRoundRect(0,0,_w,_h,_cornerRadius,_cornerRadius);
-			this.graphics.endFill();
+			
+			var initBmp:Bitmap = new Assets.initSquare() as Bitmap;
+			initBmp.width=_w;
+			initBmp.height=_h;
+			this.addChild(initBmp);
 		}
 		
 		public function reveal(zeroMineAround:Boolean):void
 		{
 			_revealed=true;
-			this.graphics.beginFill(0x00ff00);
-			this.graphics.drawRoundRect(0,0,_w,_h,_cornerRadius,_cornerRadius);
-			this.graphics.endFill();
 			
-			if(!zeroMineAround)
+			var sqBmp:Bitmap;
+			
+			if(zeroMineAround)
 			{
-				var textfield:TextField=new TextField();
-				textfield.text=_nearbyBombs.toString();
-				textfield.doubleClickEnabled=true;
-				this.addChild(textfield);
+				sqBmp=new Assets.emptySquare() as Bitmap;
+			}
+			else
+			{			
+				switch(_nearbyBombs)
+				{
+					case 1: sqBmp=new Assets.oneSquare() as Bitmap;
+						break;
+					
+					case 2: sqBmp=new Assets.twoSquare() as Bitmap;
+						break;
+					
+					case 3: sqBmp=new Assets.threeSquare() as Bitmap;
+						break;
+					
+					case 4: sqBmp=new Assets.fourSquare() as Bitmap;
+						break;
+					
+					case 5: sqBmp=new Assets.fiveSquare() as Bitmap;
+						break;
+					
+					case 6: sqBmp=new Assets.sixSquare() as Bitmap;
+						break;
+					
+					case 7: sqBmp=new Assets.sevenSquare() as Bitmap;
+						break;
+					
+					case 8: sqBmp=new Assets.eightSquare() as Bitmap;
+						break;
+				}
 			}			
+			
+			sqBmp.width=_w;
+			sqBmp.height=_h;
+			this.addChild(sqBmp);
 		}
 		
 		public function get flagged():Boolean
