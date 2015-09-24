@@ -63,6 +63,26 @@ package com.adelbarre.minesweeper
 			this.addChild(initBmp);	
 		}
 		
+		public function showMistake():void
+		{
+			var crossSprite:Sprite=new Sprite();
+			crossSprite.graphics.lineStyle(3,0xFF0000);
+			crossSprite.graphics.moveTo(0,0);
+			crossSprite.graphics.lineTo(_w,_h);
+			crossSprite.graphics.moveTo(0,_h);
+			crossSprite.graphics.lineTo(_w,0);
+			this.addChild(crossSprite);
+		}
+		
+		public function showMine():void
+		{
+			this.removeChildren();			
+			var mineBmp:Bitmap = new Assets.mineSquare() as Bitmap;
+			mineBmp.width=_w;
+			mineBmp.height=_h;
+			this.addChild(mineBmp);	
+		}
+		
 		public function get isPotential():Boolean
 		{
 			return _isPotential;

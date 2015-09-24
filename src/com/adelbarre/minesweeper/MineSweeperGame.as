@@ -21,7 +21,7 @@ package com.adelbarre.minesweeper
 		
 		private var _gridWidth:int;
 		private var _gridHeight:int;
-		
+		private var _gameover:Boolean=false;
 		private var _remainingMines:int;
 		
 		public function MineSweeperGame(board:Sprite)
@@ -34,6 +34,9 @@ package com.adelbarre.minesweeper
 			_gridWidth=gridWidth;
 			_gridHeight=gridHeight;
 			_remainingMines=mines;
+			
+			_gameover=false;
+			
 			createGrid(gridWidth,gridHeight,mines);
 		}
 		
@@ -100,6 +103,8 @@ package com.adelbarre.minesweeper
 		
 		private function onBoardDoubleClick(evt:MouseEvent):void
 		{
+			if(_gameover) return;
+			
 			var clickedSquare:Square;
 			
 			if(evt.target is Square)
@@ -109,16 +114,13 @@ package com.adelbarre.minesweeper
 			
 			if(clickedSquare)
 			{
-				trace("double click");
+				trace("double click");				
 				
-				
-				//check the unrevealed squares around
-				var numNeighbors:int=0;
-				var sqIdsAround:Vector.<int>=getNeighbors(clickedSquare.index);
-				var i:int;
+				//check the unrevealed squares around				
+				var sqIdsAround:Vector.<int>=getNeighbors(clickedSquare.index);				
 				
 				//count numbers of mines around sqId
-				for(i=0;i<sqIdsAround.length;i++)
+				for(var i:int=0;i<sqIdsAround.length;i++)
 				{				
 					if(!_squares[sqIdsAround[i]].revealed && 
 						!_squares[sqIdsAround[i]].flagged && _squares[sqIdsAround[i]].hasMine)
@@ -128,13 +130,14 @@ package com.adelbarre.minesweeper
 					}
 				}				
 				
-				revealZone(clickedSquare.index);
-				
+				revealZone(clickedSquare.index);				
 			}
 		}
 		
 		private function onBoardRightClick(evt:MouseEvent):void
 		{
+			if(_gameover) return;
+			
 			var clickedSquare:Square;
 			
 			if(evt.target is Square)
@@ -171,8 +174,9 @@ package com.adelbarre.minesweeper
 		
 		private function declareGameOver():void
 		{
+			_gameover=true;
 			Alert.show("GAME OVER","BOOOM!");
-			revealGrid();
+			revealAllMines();
 		}
 		
 		//determine neighbors of sqId
@@ -198,15 +202,27 @@ package com.adelbarre.minesweeper
 		}
 		
 		//Called at Game over
-		private function revealGrid():void
+		private function revealAllMines():void
 		{
-			
+			for(var i:int=0;i<_squares.length;i++)
+			{
+				if(!_squares[i].revealed && _squares[i].hasMine && !_squares[i].flagged)
+				{
+					_squares[i].showMine();
+				}
+				else
+				{
+					if(!_squares[i].hasMine && _squares[i].flagged)
+					{
+						_squares[i].showMistake();
+					}
+				}
+			}
 		}
 		
 		
 		private function revealZone(sqId:int):void
-		{
-		
+		{		
 			var numNeighbors:int=0;
 			var sqIdsToReveal:Vector.<int>=getNeighbors(sqId);
 			var i:int;
@@ -221,23 +237,20 @@ package com.adelbarre.minesweeper
 			}
 			
 			//if at least one mine is around sqId, we display the number of mines in sqId
-
-			if(_squares[sqId].nearbyMines!=0 && !_squares[sqId].revealed)
-														_squares[sqId].reveal(false);
-
+			if(_squares[sqId].nearbyMines!=0 && !_squares[sqId].revealed) _squares[sqId].reveal(false);
 			else
 			{
 				if(!_squares[sqId].revealed) _squares[sqId].reveal(true);
 				for(i=0;i<sqIdsToReveal.length;i++)
 				{	
-					if(!_squares[sqIdsToReveal[i]].revealed && 
-						!_squares[sqIdsToReveal[i]].hasMine) revealZone(sqIdsToReveal[i]);
+					if(!_squares[sqIdsToReveal[i]].revealed && !_squares[sqIdsToReveal[i]].hasMine) revealZone(sqIdsToReveal[i]);
 				}
 			}
 		}
 		
 		private function onBoardClick(evt:MouseEvent):void
 		{
+			if(_gameover) return;
 			if(evt.target is Square) 
 			{
 				if((evt.target as Square).hasMine) //GAME OVER
@@ -248,8 +261,6 @@ package com.adelbarre.minesweeper
 				{
 					if(!(evt.target as Square).revealed) revealZone((evt.target as Square).index);
 				}
-				
-				
 			}
 		}
 		
