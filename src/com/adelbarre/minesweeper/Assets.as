@@ -26,8 +26,7 @@ package com.adelbarre.minesweeper
 		
 		[Embed(source="assets/eight.png")]
 		public static var eightSquare:Class;
-		
-		
+				
 		[Embed(source="assets/mine.png")]
 		public static var mineSquare:Class;
 		
@@ -42,6 +41,15 @@ package com.adelbarre.minesweeper
 		
 		[Embed(source="assets/potential.png")]
 		public static var potentialSquare:Class;
+		
+		[Embed(source="assets/icn_face_01.png")]
+		public static var playingFace:Class;
+		
+		[Embed(source="assets/icn_face_02.png")]
+		public static var victoryFace:Class;
+		
+		[Embed(source="assets/icn_face_03.png")]
+		public static var gameoverFace:Class;
 		
 	}
 }

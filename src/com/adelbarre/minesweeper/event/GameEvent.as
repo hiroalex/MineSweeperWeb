@@ -5,6 +5,8 @@ package com.adelbarre.minesweeper.event
 	public class GameEvent extends Event
 	{
 		public static const MINE_FLAGGED_UPDATE:String="mine_flagged_update";
+		public static const GAMEOVER:String="gameover";	
+		public static const VICTORY:String="victory";	
 		
 		public var remainingMines:int;
 		

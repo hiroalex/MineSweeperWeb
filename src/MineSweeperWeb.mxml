@@ -9,20 +9,50 @@
 	
 	<fx:Script>
 		<![CDATA[ 
+			import com.adelbarre.minesweeper.FaceButton;
 			import com.adelbarre.minesweeper.MineSweeperGame;
 			import com.adelbarre.minesweeper.event.GameEvent;
 			
 			private var _mineSweeperGame:MineSweeperGame;
+			private var _faceBtn:FaceButton;
 			
-			private static const MINES:int=20;
+			private static const MINES:int=2;
+			private static const GRID_WIDTH:int=20;
+			private static const GRID_HEIGHT:int=10;
 			 
 			private function onCreationComplete():void
 			{
 				_mineSweeperGame = new MineSweeperGame(boardContainer);
 				_mineSweeperGame.addEventListener(GameEvent.MINE_FLAGGED_UPDATE,onMineFlaggedUpdate);
-				_mineSweeperGame.start(20,10,MINES);
+				_mineSweeperGame.addEventListener(GameEvent.GAMEOVER,onGameOver);
+				_mineSweeperGame.addEventListener(GameEvent.VICTORY,onVictory);
+				_mineSweeperGame.start(GRID_WIDTH,GRID_HEIGHT,MINES);
 				remainingLabel.text=MINES.toString();
 				timerLabel.text="0";
+				
+				_faceBtn=new FaceButton();
+				_faceBtn.addEventListener(MouseEvent.CLICK,onFaceBtnClick);
+				buttonContainer.addChild(_faceBtn);
+				
+				this.minHeight=GRID_HEIGHT*MineSweeperGame.SQUARE_HEIGHT+100;
+				this.minWidth=GRID_WIDTH*MineSweeperGame.SQUARE_WIDTH+100;
+			}
+			
+			private function onGameOver(evt:GameEvent):void
+			{
+				_faceBtn.setFace(FaceButton.GAMEOVER);
+			}
+			
+			private function onVictory(evt:GameEvent):void
+			{
+				_faceBtn.setFace(FaceButton.VICTORY);
+			}
+			
+			private function onFaceBtnClick(evt:MouseEvent):void
+			{
+				remainingLabel.text=MINES.toString();
+				_faceBtn.setFace(FaceButton.PLAYING);
+				_mineSweeperGame.start(GRID_WIDTH,GRID_HEIGHT,MINES);
 			}
 			
 			private function onMineFlaggedUpdate(evt:GameEvent):void
@@ -38,20 +68,19 @@
 				if(_mineSweeperGame) _mineSweeperGame.recenter(); 
 			}
 			
-			private function onNewGameClick(evt:MouseEvent):void
-			{
-				_mineSweeperGame.start(20,10,MINES);
-			}
-			
-			
 		]]>
 	</fx:Script>
 	
-	<s:VGroup width="100%" height="100%">
-		<s:HGroup horizontalAlign="center" verticalAlign="middle" width="100%" height="100">
-			<s:Label id="remainingLabel" width="100%" textAlign="center" fontSize="30" />
-			<s:Button id="newGame" label="New Game" click="onNewGameClick(event)" width="100%" height="25"/>
-			<s:Label id="timerLabel" width="100%" textAlign="center" fontSize="30" />
+	<s:VGroup width="100%" height="100%">	
+		<s:Spacer height="20"/>
+		<s:HGroup  width="100%" height="40" horizontalAlign="center">			
+			<s:Label id="remainingLabel" width="80" textAlign="center" fontSize="30" height="32" verticalAlign="bottom"
+					 backgroundColor="0x000000" color="0xFF0000"/>
+			<s:Spacer width="40"/>
+			<s:SpriteVisualElement id="buttonContainer" width="30"/>
+			<s:Spacer width="40"/>
+			<s:Label id="timerLabel" width="80" textAlign="center" fontSize="30" height="32" verticalAlign="bottom"
+					 backgroundColor="0x000000" color="0xFF0000"/>
 		</s:HGroup>
 		<s:SpriteVisualElement width="100%" height="100%" id="boardContainer"/>
 	</s:VGroup>

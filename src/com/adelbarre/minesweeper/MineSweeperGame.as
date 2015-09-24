@@ -7,8 +7,6 @@ package com.adelbarre.minesweeper
 	import flash.events.EventDispatcher;
 	import flash.events.MouseEvent;
 	
-	import mx.controls.Alert;
-	
 	public class MineSweeperGame extends EventDispatcher
 	{
 		private var _boardContainer:Sprite;
@@ -16,8 +14,8 @@ package com.adelbarre.minesweeper
 		private var _squares:Vector.<Square>;	
 		private var _squaresContainer:Sprite;
 		
-		private static const SQUARE_WIDTH:Number=25;
-		private static const SQUARE_HEIGHT:Number=25;
+		public static const SQUARE_WIDTH:Number=25;
+		public static const SQUARE_HEIGHT:Number=25;
 		
 		private var _gridWidth:int;
 		private var _gridHeight:int;
@@ -175,8 +173,17 @@ package com.adelbarre.minesweeper
 		private function declareGameOver():void
 		{
 			_gameover=true;
-			Alert.show("GAME OVER","BOOOM!");
 			revealAllMines();
+			var gameEvt:GameEvent=new GameEvent(GameEvent.GAMEOVER);
+			dispatchEvent(gameEvt);
+		}
+		
+		
+		private function declareVictory():void
+		{
+			_gameover=true;
+			var gameEvt:GameEvent=new GameEvent(GameEvent.VICTORY);
+			dispatchEvent(gameEvt);
 		}
 		
 		//determine neighbors of sqId
@@ -279,7 +286,6 @@ package com.adelbarre.minesweeper
 				_squares.pop();
 			}
 			_squares=null;
-		}
-		
+		}		
 	}
 }
