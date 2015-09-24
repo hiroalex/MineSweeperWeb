@@ -26,6 +26,7 @@ package com.adelbarre.minesweeper
 			_cornerRadius=cornerRadius;
 			
 			_nearbyBombs=0;
+			this.doubleClickEnabled=true;
 			
 			this.graphics.beginFill(0xCCCCCC);
 			this.graphics.drawRoundRect(0,0,w,h,cornerRadius,cornerRadius);
@@ -69,7 +70,6 @@ package com.adelbarre.minesweeper
 		{
 			_isPotential=true;
 			var textfield:TextField=new TextField();
-			//textfield.  .touchable=false
 			textfield.text="?";
 			textfield.selectable=false;
 			this.addChild(textfield);
@@ -96,6 +96,7 @@ package com.adelbarre.minesweeper
 			{
 				var textfield:TextField=new TextField();
 				textfield.text=_nearbyBombs.toString();
+				textfield.doubleClickEnabled=true;
 				this.addChild(textfield);
 			}			
 		}

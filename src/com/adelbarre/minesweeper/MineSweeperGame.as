@@ -92,15 +92,50 @@ package com.adelbarre.minesweeper
 			_squaresContainer.addEventListener(Event.REMOVED_FROM_STAGE,onSquaresContainerRemovedFromStage);
 			_squaresContainer.x=_boardContainer.width*0.5-_squaresContainer.width*0.5;
 			_squaresContainer.y=_boardContainer.height*0.5-_squaresContainer.height*0.5;
-			
+						
+			_squaresContainer.doubleClickEnabled=true;
 			_squaresContainer.addEventListener(MouseEvent.RIGHT_CLICK,onBoardRightClick);
 			_squaresContainer.addEventListener(MouseEvent.CLICK,onBoardClick);
-			_squaresContainer.addEventListener(MouseEvent.DOUBLE_CLICK,onBoardDoubleClick);
+			_squaresContainer.addEventListener(MouseEvent.DOUBLE_CLICK,onBoardDoubleClick);			
 		}		
 		
 		private function onBoardDoubleClick(evt:MouseEvent):void
 		{
+			var clickedSquare:Square;
 			
+			if(evt.target is Square)
+			{	
+				clickedSquare=evt.target as Square;
+			}
+			else if(evt.target is TextField) 
+			{	
+				clickedSquare=evt.target.parent as Square;
+			}
+			
+			if(clickedSquare)
+			{
+				trace("double click");
+				//revealZone(clickedSquare.i);
+				/*if(!clickedSquare.flagged && !clickedSquare.isPotential)
+				{
+					clickedSquare.addFlag();
+					_remainingMines--;
+				}
+				else if(clickedSquare.flagged)
+				{
+					clickedSquare.removeFlag();
+					clickedSquare.addPotential();
+					_remainingMines++;
+				}
+				else
+				{
+					clickedSquare.removePotential();
+				}
+				
+				var gameEvt:GameEvent=new GameEvent(GameEvent.MINE_FLAGGED_UPDATE);
+				gameEvt.remainingMines=_remainingMines;
+				dispatchEvent(gameEvt);*/
+			}
 		}
 		
 		private function onBoardRightClick(evt:MouseEvent):void
@@ -118,6 +153,8 @@ package com.adelbarre.minesweeper
 			
 			if(clickedSquare)
 			{
+				if(clickedSquare.revealed) return;
+				
 				if(!clickedSquare.flagged && !clickedSquare.isPotential)
 				{
 					clickedSquare.addFlag();
