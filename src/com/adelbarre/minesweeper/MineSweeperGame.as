@@ -75,7 +75,7 @@ package com.adelbarre.minesweeper
 				}
 				while(mineIndices.hasOwnProperty(randomNumber.toString()));
 				mineIndices[randomNumber.toString()]=true;	
-				_sq[randomNumber].hasBomb=true;
+				_sq[randomNumber].hasMine=true;
 			}
 		}
 		
@@ -121,7 +121,7 @@ package com.adelbarre.minesweeper
 				for(i=0;i<sqIdsAround.length;i++)
 				{				
 					if(!_squares[sqIdsAround[i]].revealed && 
-						!_squares[sqIdsAround[i]].flagged && _squares[sqIdsAround[i]].hasBomb)
+						!_squares[sqIdsAround[i]].flagged && _squares[sqIdsAround[i]].hasMine)
 					{
 						declareGameOver();
 						return;
@@ -214,15 +214,15 @@ package com.adelbarre.minesweeper
 			//count numbers of mines around sqId
 			for(i=0;i<sqIdsToReveal.length;i++)
 			{				
-				if(!_squares[sqIdsToReveal[i]].revealed && _squares[sqIdsToReveal[i]].hasBomb)
+				if(!_squares[sqIdsToReveal[i]].revealed && _squares[sqIdsToReveal[i]].hasMine)
 				{
-					_squares[sqId].addBombNearby();
+					_squares[sqId].addMineNearby();
 				}
 			}
 			
 			//if at least one mine is around sqId, we display the number of mines in sqId
 
-			if(_squares[sqId].nearbyBombs!=0 && !_squares[sqId].revealed)
+			if(_squares[sqId].nearbyMines!=0 && !_squares[sqId].revealed)
 														_squares[sqId].reveal(false);
 
 			else
@@ -231,7 +231,7 @@ package com.adelbarre.minesweeper
 				for(i=0;i<sqIdsToReveal.length;i++)
 				{	
 					if(!_squares[sqIdsToReveal[i]].revealed && 
-						!_squares[sqIdsToReveal[i]].hasBomb) revealZone(sqIdsToReveal[i]);
+						!_squares[sqIdsToReveal[i]].hasMine) revealZone(sqIdsToReveal[i]);
 				}
 			}
 		}
@@ -240,7 +240,7 @@ package com.adelbarre.minesweeper
 		{
 			if(evt.target is Square) 
 			{
-				if((evt.target as Square).hasBomb) //GAME OVER
+				if((evt.target as Square).hasMine) //GAME OVER
 				{
 					declareGameOver();
 				}

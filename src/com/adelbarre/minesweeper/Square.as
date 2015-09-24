@@ -6,13 +6,13 @@ package com.adelbarre.minesweeper
 	public class Square extends Sprite
 	{
 		private var _index:int;
-		private var _hasBomb:Boolean=false;
+		private var _hasMine:Boolean=false;
 		private var _status:String;
 		private var _revealed:Boolean=false;
 		
 		private var _w:int;
 		private var _h:int;
-		private var _nearbyBombs:int;
+		private var _nearbyMines:int;
 		private var _flagged:Boolean=false;
 		private var _isPotential:Boolean=false;
 		
@@ -23,7 +23,7 @@ package com.adelbarre.minesweeper
 			_w=w;
 			_h=h;
 			
-			_nearbyBombs=0;
+			_nearbyMines=0;
 			this.doubleClickEnabled=true;
 			
 			var initBmp:Bitmap = new Assets.initSquare() as Bitmap;
@@ -33,14 +33,14 @@ package com.adelbarre.minesweeper
 		}
 		
 		
-		public function addBombNearby():void
+		public function addMineNearby():void
 		{
-			_nearbyBombs++;
+			_nearbyMines++;
 		}
 		
-		public function get nearbyBombs():int
+		public function get nearbyMines():int
 		{
-			return _nearbyBombs;
+			return _nearbyMines;
 		}
 		
 		public function addFlag():void
@@ -101,7 +101,7 @@ package com.adelbarre.minesweeper
 			}
 			else
 			{			
-				switch(_nearbyBombs)
+				switch(_nearbyMines)
 				{
 					case 1: sqBmp=new Assets.oneSquare() as Bitmap;
 						break;
@@ -149,14 +149,14 @@ package com.adelbarre.minesweeper
 			return _index;
 		}
 		
-		public function get hasBomb():Boolean
+		public function get hasMine():Boolean
 		{
-			return _hasBomb
+			return _hasMine;
 		}
 		
-		public function set hasBomb(val:Boolean):void
+		public function set hasMine(val:Boolean):void
 		{
-			_hasBomb=val;
+			_hasMine=val;
 		}
 	}
 }
