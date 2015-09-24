@@ -182,16 +182,14 @@ package com.adelbarre.minesweeper
 			//count numbers of mines around sqId
 			for(i=0;i<sqIdsToReveal.length;i++)
 			{				
-				if(!_squares[sqIdsToReveal[i]].revealed && 
-					!_squares[sqIdsToReveal[i]].flagged && _squares[sqIdsToReveal[i]].hasBomb)
+				if(!_squares[sqIdsToReveal[i]].revealed && _squares[sqIdsToReveal[i]].hasBomb)
 				{
 					_squares[sqId].addBombNearby();
 				}
 			}
 			
 			//if at least one mine is around sqId, we display the number of mines in sqId
-			if(_squares[sqId].nearbyBombs!=0 && !_squares[sqId].revealed
-								&& !_squares[sqId].flagged) _squares[sqId].reveal(false);
+			if(_squares[sqId].nearbyBombs!=0 && !_squares[sqId].revealed) _squares[sqId].reveal(false);
 			else
 			{
 				if(!_squares[sqId].revealed) _squares[sqId].reveal(true);
