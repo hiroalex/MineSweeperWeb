@@ -48,7 +48,7 @@
 	</fx:Script>
 	
 	<s:VGroup width="100%" height="100%">
-		<s:HGroup horizontalAlign="center" verticalAlign="middle" width="100%" height="50">
+		<s:HGroup horizontalAlign="center" verticalAlign="middle" width="100%" height="100">
 			<s:Label id="remainingLabel" width="100%" textAlign="center" fontSize="30" />
 			<s:Button id="newGame" label="New Game" click="onNewGameClick(event)" width="100%" height="25"/>
 			<s:Label id="timerLabel" width="100%" textAlign="center" fontSize="30" />
