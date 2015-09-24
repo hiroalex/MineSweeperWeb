@@ -115,26 +115,7 @@ package com.adelbarre.minesweeper
 			if(clickedSquare)
 			{
 				trace("double click");
-				//revealZone(clickedSquare.i);
-				/*if(!clickedSquare.flagged && !clickedSquare.isPotential)
-				{
-					clickedSquare.addFlag();
-					_remainingMines--;
-				}
-				else if(clickedSquare.flagged)
-				{
-					clickedSquare.removeFlag();
-					clickedSquare.addPotential();
-					_remainingMines++;
-				}
-				else
-				{
-					clickedSquare.removePotential();
-				}
-				
-				var gameEvt:GameEvent=new GameEvent(GameEvent.MINE_FLAGGED_UPDATE);
-				gameEvt.remainingMines=_remainingMines;
-				dispatchEvent(gameEvt);*/
+				revealZone(clickedSquare.index);
 			}
 		}
 		
@@ -208,13 +189,16 @@ package com.adelbarre.minesweeper
 			//count numbers of mines around sqId
 			for(i=0;i<sqIdsToReveal.length;i++)
 			{				
-				if(_squares[sqIdsToReveal[i]].hasBomb) _squares[sqId].addBombNearby();
+				if(!_squares[sqIdsToReveal[i]].revealed && _squares[sqIdsToReveal[i]].hasBomb)
+				{
+					_squares[sqId].addBombNearby();
+				}
 			}
 			
-			if(_squares[sqId].nearbyBombs!=0) _squares[sqId].reveal(false);
+			if(_squares[sqId].nearbyBombs!=0 && !_squares[sqId].revealed) _squares[sqId].reveal(false);
 			else
 			{
-				_squares[sqId].reveal(true);
+				if(!_squares[sqId].revealed) _squares[sqId].reveal(true);
 				for(i=0;i<sqIdsToReveal.length;i++)
 				{	
 					if(!_squares[sqIdsToReveal[i]].revealed && 

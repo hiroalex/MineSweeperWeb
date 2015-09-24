@@ -1,5 +1,6 @@
 package com.adelbarre.minesweeper
 {
+	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.text.TextField;
 	
@@ -28,9 +29,14 @@ package com.adelbarre.minesweeper
 			_nearbyBombs=0;
 			this.doubleClickEnabled=true;
 			
-			this.graphics.beginFill(0xCCCCCC);
+			var initBmp:Bitmap = new Assets.initSquare() as Bitmap;
+			initBmp.width=w;
+			initBmp.height=h;
+			this.addChild(initBmp);
+			
+			/*this.graphics.beginFill(0xCCCCCC);
 			this.graphics.drawRoundRect(0,0,w,h,cornerRadius,cornerRadius);
-			this.graphics.endFill();	
+			this.graphics.endFill();*/	
 		}
 		
 		
