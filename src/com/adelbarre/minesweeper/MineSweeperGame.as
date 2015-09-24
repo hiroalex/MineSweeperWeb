@@ -152,6 +152,7 @@ package com.adelbarre.minesweeper
 				{
 					clickedSquare.addFlag();
 					_remainingMines--;
+					checkVictory();
 				}
 				else if(clickedSquare.flagged)
 				{
@@ -168,6 +169,22 @@ package com.adelbarre.minesweeper
 				gameEvt.remainingMines=_remainingMines;
 				dispatchEvent(gameEvt);
 			}
+		}
+		
+		private function checkVictory():void
+		{
+			if(_remainingMines>0) return;
+			
+			var revealedTotal:int=0;
+			var flaggedTotal:int=0;
+			
+			for(var i:int=0;i<_squares.length;i++)
+			{
+				if(_squares[i].revealed) revealedTotal++;
+				else if(_squares[i].flagged) flaggedTotal++;
+			}
+			
+			if(revealedTotal+flaggedTotal==_gridWidth*_gridHeight) declareVictory();
 		}
 		
 		private function declareGameOver():void
@@ -267,6 +284,7 @@ package com.adelbarre.minesweeper
 				else
 				{
 					if(!(evt.target as Square).revealed) revealZone((evt.target as Square).index);
+					checkVictory();
 				}
 			}
 		}
