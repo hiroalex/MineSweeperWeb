@@ -16,7 +16,7 @@
 			private var _mineSweeperGame:MineSweeperGame;
 			private var _faceBtn:FaceButton;
 			
-			private static const MINES:int=5;
+			private static const MINES:int=20;
 			private static const GRID_WIDTH:int=20;
 			private static const GRID_HEIGHT:int=10;
 			 
