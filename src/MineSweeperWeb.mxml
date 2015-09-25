@@ -10,15 +10,21 @@
 	<fx:Script>
 		<![CDATA[ 
 			import com.adelbarre.minesweeper.FaceButton;
+			import com.adelbarre.minesweeper.LevelSelector;
 			import com.adelbarre.minesweeper.MineSweeperGame;
 			import com.adelbarre.minesweeper.event.GameEvent;
+			import com.adelbarre.minesweeper.event.SelectorEvent;
 			
 			private var _mineSweeperGame:MineSweeperGame;
 			private var _faceBtn:FaceButton;
+			private var _selector:LevelSelector
 			
-			private static const MINES:int=20;
-			private static const GRID_WIDTH:int=20;
-			private static const GRID_HEIGHT:int=10;
+			private var _mines:int=10;
+			//private static const GRID_WIDTH:int=20;
+			//private static const GRID_HEIGHT:int=10;
+			
+			private var _gridWidth:int=10;
+			private var _gridHeight:int=10;
 			 
 			private function onCreationComplete():void
 			{
@@ -29,16 +35,51 @@
 				_mineSweeperGame.addEventListener(GameEvent.TIMER,onTimer);
 				
 				
-				_mineSweeperGame.start(GRID_WIDTH,GRID_HEIGHT,MINES);
-				remainingLabel.text=MINES.toString();
+				_mineSweeperGame.start(_gridWidth,_gridHeight,_mines);
+				remainingLabel.text=_mines.toString();
 				timerLabel.text="0";
 				
 				_faceBtn=new FaceButton();
 				_faceBtn.addEventListener(MouseEvent.CLICK,onFaceBtnClick);
 				buttonContainer.addChild(_faceBtn);
 				
-				this.minHeight=GRID_HEIGHT*MineSweeperGame.SQUARE_HEIGHT+100;
-				this.minWidth=GRID_WIDTH*MineSweeperGame.SQUARE_WIDTH+100;
+				_selector=new LevelSelector();
+				_selector.addEventListener(SelectorEvent.LEVEL_CHANGE,onLevelChange);
+				levelSelectorContainer.addChild(_selector);
+				
+				
+				this.minHeight=_gridHeight*MineSweeperGame.SQUARE_HEIGHT+100;
+				this.minWidth=_gridWidth*MineSweeperGame.SQUARE_WIDTH+100;
+			}
+			
+			private function onLevelChange(evt:SelectorEvent):void
+			{
+				switch(evt.selectedLevel)
+				{
+					case LevelSelector.LEVEL_EASY:
+						_gridWidth=10;
+						_gridHeight=10;
+						_mines=10;
+						//boardContainer.percentHeight=50;
+						break;
+					
+					case LevelSelector.LEVEL_MEDIUM:
+						_gridWidth=20;
+						_gridHeight=12;
+						_mines=25;
+						//boardContainer.percentHeight=100;
+						break;
+					
+					case LevelSelector.LEVEL_HARD:
+						_gridWidth=30;
+						_gridHeight=16;
+						_mines=40;
+						//boardContainer.percentHeight=100;
+						break;
+						
+				}
+				
+				startNewGame();
 			}
 			
 			private function onTimer(evt:GameEvent):void
@@ -58,10 +99,15 @@
 			
 			private function onFaceBtnClick(evt:MouseEvent):void
 			{
-				remainingLabel.text=MINES.toString();
+				startNewGame();
+			}
+			
+			private function startNewGame():void
+			{
+				remainingLabel.text=_mines.toString();
 				_faceBtn.setFace(FaceButton.PLAYING);
 				timerLabel.text="0";
-				_mineSweeperGame.start(GRID_WIDTH,GRID_HEIGHT,MINES);
+				_mineSweeperGame.start(_gridWidth,_gridHeight,_mines);
 			}
 			
 			private function onMineFlaggedUpdate(evt:GameEvent):void
@@ -75,13 +121,14 @@
 			private function onResize():void 
 			{
 				if(_mineSweeperGame) _mineSweeperGame.recenter(); 
+				if(_selector) _selector.recenter(); 
 			}
 			
 		]]>
 	</fx:Script>
 	
 	<s:VGroup width="100%" height="100%">	
-		<s:Spacer height="20"/>
+		<s:Spacer height="20"/>	
 		<s:HGroup  width="100%" height="40" horizontalAlign="center">			
 			<s:Label id="remainingLabel" width="80" textAlign="center" fontSize="30" height="32" verticalAlign="bottom"
 					 backgroundColor="0x000000" color="0xFF0000"/>
@@ -91,7 +138,9 @@
 			<s:Label id="timerLabel" width="80" textAlign="center" fontSize="30" height="32" verticalAlign="bottom"
 					 backgroundColor="0x000000" color="0xFF0000"/>
 		</s:HGroup>
-		<s:SpriteVisualElement width="100%" height="100%" id="boardContainer"/>
+		<s:Spacer height="40"/>
+		<s:SpriteVisualElement width="100%" height="40" id="levelSelectorContainer"/>
+		<s:SpriteVisualElement width="100%" height="400" id="boardContainer"/> 
 	</s:VGroup>
 	
 </s:Application>

@@ -45,6 +45,7 @@ package com.adelbarre.minesweeper
 		
 		public function resetTimer():void
 		{
+			stopTimer();
 			_timerValue=0;
 			_timer=new Timer(1000);
 			_timer.addEventListener(TimerEvent.TIMER,onTimer);
@@ -60,9 +61,17 @@ package com.adelbarre.minesweeper
 		
 		private function stopTimer():void
 		{
-			if(_timer && _timer.running) _timer.stop();
-			_timer.removeEventListener(TimerEvent.TIMER,onTimer);
-			_timer=null;
+			try
+			{
+				if(_timer && _timer.running) _timer.stop();
+				_timer.removeEventListener(TimerEvent.TIMER,onTimer);
+				_timer=null;
+			}
+			catch(e:Error)
+			{
+				trace("Timer Exception: "+e.message);
+			}
+			
 		}
 		
 		private function createGrid(gridWidth:int,gridHeight:int, mines:int):void
@@ -155,7 +164,8 @@ package com.adelbarre.minesweeper
 					}
 				}				
 				
-				revealZone(clickedSquare.index);				
+				revealZone(clickedSquare.index);	
+				checkVictory();
 			}
 		}
 		

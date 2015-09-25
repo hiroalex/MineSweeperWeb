@@ -51,5 +51,15 @@ package com.adelbarre.minesweeper
 		[Embed(source="assets/icn_face_03.png")]
 		public static var gameoverFace:Class;
 		
+		
+		[Embed(source="assets/easy.png")]
+		public static var easyLevel:Class;
+		
+		[Embed(source="assets/medium.png")]
+		public static var mediumLevel:Class;
+		
+		[Embed(source="assets/hard.png")]
+		public static var hardLevel:Class;
+		
 	}
 }
