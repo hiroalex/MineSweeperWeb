@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<actionScriptProperties analytics="false" mainApplicationPath="MineSweeperWeb.mxml" projectUUID="67502450-3adc-432d-b40a-b25389541ba1" version="11">
+<actionScriptProperties analytics="false" mainApplicationPath="minesweeperweb.mxml" projectUUID="67502450-3adc-432d-b40a-b25389541ba1" version="11">
   <compiler additionalCompilerArguments="-locale en_US -swf-version=15" autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="true" htmlHistoryManagement="true" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin-debug" removeUnusedRSL="true" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" useFlashSDK="false" verifyDigests="true" warn="true">
     <compilerSourcePath/>
     <libraryPath defaultLinkType="0">
@@ -14,7 +14,7 @@
     <sourceAttachmentPath/>
   </compiler>
   <applications>
-    <application path="MineSweeperWeb.mxml"/>
+    <application path="minesweeperweb.mxml"/>
   </applications>
   <modules/>
   <workers/>

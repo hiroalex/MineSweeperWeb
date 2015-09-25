@@ -333,7 +333,7 @@ package com.adelbarre.minesweeper
 			_squaresContainer.removeEventListener(Event.REMOVED_FROM_STAGE,onSquaresContainerRemovedFromStage);
 			_squaresContainer.removeChildren();
 			_squaresContainer=null;
-			while(_squares.length>1)
+			while(_squares.length>0)
 			{
 				_squares[_squares.length-1]=null;
 				_squares.pop();
