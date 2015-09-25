@@ -6,6 +6,8 @@ package com.adelbarre.minesweeper
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.MouseEvent;
+	import flash.events.TimerEvent;
+	import flash.utils.Timer;
 	
 	public class MineSweeperGame extends EventDispatcher
 	{
@@ -21,6 +23,8 @@ package com.adelbarre.minesweeper
 		private var _gridHeight:int;
 		private var _gameover:Boolean=false;
 		private var _remainingMines:int;
+		private var _timer:Timer;
+		private var _timerValue:int;
 		
 		public function MineSweeperGame(board:Sprite)
 		{
@@ -36,6 +40,29 @@ package com.adelbarre.minesweeper
 			_gameover=false;
 			
 			createGrid(gridWidth,gridHeight,mines);
+			resetTimer();
+		}
+		
+		public function resetTimer():void
+		{
+			_timerValue=0;
+			_timer=new Timer(1000);
+			_timer.addEventListener(TimerEvent.TIMER,onTimer);
+		}
+		
+		private function onTimer(evt:TimerEvent):void
+		{
+			_timerValue++;
+			var gameEvt:GameEvent=new GameEvent(GameEvent.TIMER);
+			gameEvt.timerValue=_timerValue;
+			dispatchEvent(gameEvt);
+		}
+		
+		private function stopTimer():void
+		{
+			if(_timer && _timer.running) _timer.stop();
+			_timer.removeEventListener(TimerEvent.TIMER,onTimer);
+			_timer=null;
 		}
 		
 		private function createGrid(gridWidth:int,gridHeight:int, mines:int):void
@@ -189,6 +216,7 @@ package com.adelbarre.minesweeper
 		
 		private function declareGameOver():void
 		{
+			stopTimer();
 			_gameover=true;
 			revealAllMines();
 			var gameEvt:GameEvent=new GameEvent(GameEvent.GAMEOVER);
@@ -198,6 +226,7 @@ package com.adelbarre.minesweeper
 		
 		private function declareVictory():void
 		{
+			stopTimer();
 			_gameover=true;
 			var gameEvt:GameEvent=new GameEvent(GameEvent.VICTORY);
 			dispatchEvent(gameEvt);
@@ -250,6 +279,9 @@ package com.adelbarre.minesweeper
 			var numNeighbors:int=0;
 			var sqIdsToReveal:Vector.<int>=getNeighbors(sqId);
 			var i:int;
+			
+			if(!_timer.running) _timer.start();
+			
 			
 			//count numbers of mines around sqId
 			for(i=0;i<sqIdsToReveal.length;i++)

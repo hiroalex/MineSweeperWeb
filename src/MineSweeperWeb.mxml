@@ -26,6 +26,9 @@
 				_mineSweeperGame.addEventListener(GameEvent.MINE_FLAGGED_UPDATE,onMineFlaggedUpdate);
 				_mineSweeperGame.addEventListener(GameEvent.GAMEOVER,onGameOver);
 				_mineSweeperGame.addEventListener(GameEvent.VICTORY,onVictory);
+				_mineSweeperGame.addEventListener(GameEvent.TIMER,onTimer);
+				
+				
 				_mineSweeperGame.start(GRID_WIDTH,GRID_HEIGHT,MINES);
 				remainingLabel.text=MINES.toString();
 				timerLabel.text="0";
@@ -36,6 +39,11 @@
 				
 				this.minHeight=GRID_HEIGHT*MineSweeperGame.SQUARE_HEIGHT+100;
 				this.minWidth=GRID_WIDTH*MineSweeperGame.SQUARE_WIDTH+100;
+			}
+			
+			private function onTimer(evt:GameEvent):void
+			{
+				timerLabel.text=evt.timerValue.toString();
 			}
 			
 			private function onGameOver(evt:GameEvent):void
@@ -52,6 +60,7 @@
 			{
 				remainingLabel.text=MINES.toString();
 				_faceBtn.setFace(FaceButton.PLAYING);
+				timerLabel.text="0";
 				_mineSweeperGame.start(GRID_WIDTH,GRID_HEIGHT,MINES);
 			}
 			

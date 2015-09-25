@@ -6,9 +6,11 @@ package com.adelbarre.minesweeper.event
 	{
 		public static const MINE_FLAGGED_UPDATE:String="mine_flagged_update";
 		public static const GAMEOVER:String="gameover";	
-		public static const VICTORY:String="victory";	
+		public static const VICTORY:String="victory";
+		public static const TIMER:String="timer";
 		
 		public var remainingMines:int;
+		public var timerValue:int;
 		
 		public function GameEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
