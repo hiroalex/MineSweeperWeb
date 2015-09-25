@@ -31,8 +31,7 @@ package com.adelbarre.minesweeper
 			initBmp.height=_h;
 			this.addChild(initBmp);
 		}
-		
-		
+				
 		public function addMineNearby():void
 		{
 			_nearbyMines++;

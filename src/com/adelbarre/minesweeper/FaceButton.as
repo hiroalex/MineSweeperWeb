@@ -35,6 +35,5 @@ package com.adelbarre.minesweeper
 			}
 			this.addChild(bmp);
 		}
-		
 	}
 }

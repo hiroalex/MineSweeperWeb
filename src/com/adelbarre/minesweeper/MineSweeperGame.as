@@ -35,10 +35,8 @@ package com.adelbarre.minesweeper
 		{
 			_gridWidth=gridWidth;
 			_gridHeight=gridHeight;
-			_remainingMines=mines;
-			
-			_gameover=false;
-			
+			_remainingMines=mines;			
+			_gameover=false;			
 			createGrid(gridWidth,gridHeight,mines);
 			resetTimer();
 		}
@@ -70,8 +68,7 @@ package com.adelbarre.minesweeper
 			catch(e:Error)
 			{
 				trace("Timer Exception: "+e.message);
-			}
-			
+			}			
 		}
 		
 		private function createGrid(gridWidth:int,gridHeight:int, mines:int):void
@@ -105,12 +102,13 @@ package com.adelbarre.minesweeper
 			var randomNumber:int;
 			for (var i:int=0;i<minesNb;i++)
 			{
-				//check that the index doesn't already exists in the dictionary
+				//check that the index doesn't already exists in the dictionary (mineIndices)
 				do
 				{					
 					randomNumber=Math.floor(Math.random()*_sq.length);			
 				}
-				while(mineIndices.hasOwnProperty(randomNumber.toString()));
+				while(mineIndices.hasOwnProperty(randomNumber.toString())); 
+				
 				mineIndices[randomNumber.toString()]=true;	
 				_sq[randomNumber].hasMine=true;
 			}
@@ -178,8 +176,7 @@ package com.adelbarre.minesweeper
 			if(evt.target is Square)
 			{	
 				clickedSquare=evt.target as Square;
-			}
-			
+			}			
 			
 			if(clickedSquare)
 			{
@@ -245,12 +242,9 @@ package com.adelbarre.minesweeper
 		//determine neighbors of sqId
 		private function getNeighbors(sqId:int):Vector.<int>
 		{		
-			var sqIds:Vector.<int>=new Vector.<int>();
-			
+			var sqIds:Vector.<int>=new Vector.<int>();			
 			var xpos:int=sqId%_gridWidth;
 			var ypos:int=Math.floor(sqId/_gridWidth);
-			
-			trace(sqId+" : "+	xpos,ypos);		
 			
 			if(ypos<_gridHeight-1) sqIds.push(sqId+_gridWidth); //adding south
 			if(ypos>0) sqIds.push(sqId-_gridWidth); //adding north
@@ -281,8 +275,7 @@ package com.adelbarre.minesweeper
 					}
 				}
 			}
-		}
-		
+		}		
 		
 		private function revealZone(sqId:int):void
 		{		
@@ -290,8 +283,7 @@ package com.adelbarre.minesweeper
 			var sqIdsToReveal:Vector.<int>=getNeighbors(sqId);
 			var i:int;
 			
-			if(!_timer.running) _timer.start();
-			
+			if(!_timer.running) _timer.start();			
 			
 			//count numbers of mines around sqId
 			for(i=0;i<sqIdsToReveal.length;i++)
@@ -331,6 +323,7 @@ package com.adelbarre.minesweeper
 			}
 		}
 		
+		//clean memory and listeners
 		private function onSquaresContainerRemovedFromStage(evt:Event):void
 		{
 			_squaresContainer.removeEventListener(MouseEvent.RIGHT_CLICK,onBoardRightClick);

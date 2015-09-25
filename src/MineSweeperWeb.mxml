@@ -2,10 +2,6 @@
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" creationComplete="onCreationComplete()"
 			   xmlns:mx="library://ns.adobe.com/flex/mx" resize="onResize()">
-	<fx:Declarations>
-		<!-- Placer ici les éléments non visuels (services et objets de valeur, par exemple). -->
-	</fx:Declarations>
-	
 	
 	<fx:Script>
 		<![CDATA[ 
@@ -17,12 +13,8 @@
 			
 			private var _mineSweeperGame:MineSweeperGame;
 			private var _faceBtn:FaceButton;
-			private var _selector:LevelSelector
-			
-			private var _mines:int=10;
-			//private static const GRID_WIDTH:int=20;
-			//private static const GRID_HEIGHT:int=10;
-			
+			private var _selector:LevelSelector			
+			private var _mines:int=10; //number of mines per level
 			private var _gridWidth:int=10;
 			private var _gridHeight:int=10;
 			 
@@ -32,12 +24,7 @@
 				_mineSweeperGame.addEventListener(GameEvent.MINE_FLAGGED_UPDATE,onMineFlaggedUpdate);
 				_mineSweeperGame.addEventListener(GameEvent.GAMEOVER,onGameOver);
 				_mineSweeperGame.addEventListener(GameEvent.VICTORY,onVictory);
-				_mineSweeperGame.addEventListener(GameEvent.TIMER,onTimer);
-				
-				
-				_mineSweeperGame.start(_gridWidth,_gridHeight,_mines);
-				remainingLabel.text=_mines.toString();
-				timerLabel.text="0";
+				_mineSweeperGame.addEventListener(GameEvent.TIMER,onTimer);				
 				
 				_faceBtn=new FaceButton();
 				_faceBtn.addEventListener(MouseEvent.CLICK,onFaceBtnClick);
@@ -45,13 +32,22 @@
 				
 				_selector=new LevelSelector();
 				_selector.addEventListener(SelectorEvent.LEVEL_CHANGE,onLevelChange);
-				levelSelectorContainer.addChild(_selector);
-				
+				levelSelectorContainer.addChild(_selector);				
 				
 				this.minHeight=_gridHeight*MineSweeperGame.SQUARE_HEIGHT+100;
 				this.minWidth=_gridWidth*MineSweeperGame.SQUARE_WIDTH+100;
+				
+				startNewGame();
 			}
 			
+			private function startNewGame():void
+			{
+				remainingLabel.text=_mines.toString();
+				_faceBtn.setFace(FaceButton.PLAYING);
+				timerLabel.text="0";
+				_mineSweeperGame.start(_gridWidth,_gridHeight,_mines);
+			}
+						
 			private function onLevelChange(evt:SelectorEvent):void
 			{
 				switch(evt.selectedLevel)
@@ -60,23 +56,19 @@
 						_gridWidth=10;
 						_gridHeight=10;
 						_mines=10;
-						//boardContainer.percentHeight=50;
 						break;
 					
 					case LevelSelector.LEVEL_MEDIUM:
 						_gridWidth=20;
 						_gridHeight=12;
 						_mines=25;
-						//boardContainer.percentHeight=100;
 						break;
 					
 					case LevelSelector.LEVEL_HARD:
 						_gridWidth=30;
 						_gridHeight=16;
 						_mines=40;
-						//boardContainer.percentHeight=100;
-						break;
-						
+						break;						
 				}
 				
 				startNewGame();
@@ -100,14 +92,6 @@
 			private function onFaceBtnClick(evt:MouseEvent):void
 			{
 				startNewGame();
-			}
-			
-			private function startNewGame():void
-			{
-				remainingLabel.text=_mines.toString();
-				_faceBtn.setFace(FaceButton.PLAYING);
-				timerLabel.text="0";
-				_mineSweeperGame.start(_gridWidth,_gridHeight,_mines);
 			}
 			
 			private function onMineFlaggedUpdate(evt:GameEvent):void

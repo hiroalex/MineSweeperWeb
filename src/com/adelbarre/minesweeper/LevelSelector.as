@@ -8,17 +8,13 @@ package com.adelbarre.minesweeper
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
-	import flashx.textLayout.events.SelectionEvent;
-	
-	
 	public class LevelSelector extends Sprite
 	{
 		public static const LEVEL_EASY:String="level_easy";
 		public static const LEVEL_MEDIUM:String="level_medium";
 		public static const LEVEL_HARD:String="level_hard";
 		
-		private var _currentLevel:String;
-		
+		private var _currentLevel:String;		
 		private var _line:Sprite;
 		
 		public function LevelSelector()
@@ -51,13 +47,10 @@ package com.adelbarre.minesweeper
 			_line.graphics.endFill();
 			_line.y=26;
 			
-			_currentLevel=LEVEL_EASY;
-			
-			this.addChild(_line);
-			
+			_currentLevel=LEVEL_EASY;			
+			this.addChild(_line);			
 			addEventListener(Event.ADDED_TO_STAGE,onAddedToStage);
-		}
-		
+		}		
 		
 		public function getLevel():String
 		{
@@ -97,7 +90,6 @@ package com.adelbarre.minesweeper
 			{
 				this.x=this.parent.width*0.5-this.width*0.5;
 			}
-		}
-		
+		}		
 	}
 }
